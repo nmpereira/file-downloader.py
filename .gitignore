@@ -1,2 +1,8 @@
-
+src/output/file_downloader/*/*
+src/output/file_downloader/__pycache__/*
+*.pyd
+*.dll
+*.manifest
 *.zip
+*.pyc
+*.exe
