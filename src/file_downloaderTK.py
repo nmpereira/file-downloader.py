@@ -3,6 +3,7 @@ from tkinter import ttk
 from tqdm import tqdm
 import requests
 import sys
+import threading
 
 root = Tk()
 
@@ -12,7 +13,7 @@ root.geometry("600x300")
 chunk_size = 1048576
 
 url = "http://speedtest.tele2.net/100MB.zip"
-directory = "C:\\Gitpersonal\\file-downloader.py"
+directory = "C:\\gitpersonal\\file_downloader.py\\src"
 
 r = requests.get(url, stream = True)
 
@@ -58,11 +59,13 @@ def update_label():
 	#pass
 
 def step():
+	global stop
+	stop=False
 	chunk_size = 1048576
 	r = requests.get(url, stream = True)
 
 	total_size = int(r.headers['content-length'])
-	filename = directory + '/' + url.split('/')[-1]
+	filename = directory + '\\' + url.split('/')[-1]
 	with open(filename, 'wb') as f:
 		dl = 0
 		
@@ -80,6 +83,10 @@ def step():
 			#print("done", done)
 			f.write(data)
 			root.after(1,update_label())
+			
+			if stop == True:
+				break
+
 
 			
 
@@ -105,7 +112,8 @@ def step():
 	#my_progress.stop()
 
 def stop():
-	my_progress.stop()
+	global stop
+	stop =True
 
 my_progress =ttk.Progressbar(root, orient=HORIZONTAL, length=500, mode='determinate')
 my_progress.pack(pady=20)
@@ -118,7 +126,7 @@ label_total_time.pack()
 label_download_speed.pack()
 
 
-start_button =Button(root, text='start', command=step)
+start_button =Button(root, text='start', command=lambda: threading.Thread(target=step).start())
 start_button.pack(pady=10)
 
 
