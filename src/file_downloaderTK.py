@@ -4,6 +4,8 @@ from tqdm import tqdm
 import requests
 import sys
 import threading
+import time
+import os
 
 root = Tk()
 
@@ -12,7 +14,7 @@ root.geometry("600x300")
 
 chunk_size = 1048576
 
-url = "http://speedtest.tele2.net/100MB.zip"
+url = "http://speedtest.tele2.net/1GB.zip"
 directory = "C:\\gitpersonal\\file_downloader.py\\src"
 
 r = requests.get(url, stream = True)
@@ -25,7 +27,10 @@ bar_format='{l_bar}{bar}''|{n_fmt}MB/{total:.2f}MB | [Time:{elapsed}<{remaining}
 # iterable = r.iter_content(chunk_size = chunk_size) 
 # total = total_size/chunk_size
 global done
+global current_time
+current_byte=0
 done=0
+current_time=0
 # unit = 'MB' 
 # bar_format=bar_format
 
@@ -48,12 +53,13 @@ label_download_speed = Label(root, text='download_speed: '+'0'+'MB/s')
 
 def update_label():
 	global label_percent_complete
+	global label_current_time
 	label_percent_complete.config(text='Complete: '+ str(done) + '%')
-	label_total_byte = Label(root, text='total_byte: '+'0'+'MB')
-	label_current_byte = Label(root, text='current_byte: '+'0'+'MB')
-	label_total_time = Label(root, text='total_time: '+'00:00')
-	label_current_time = Label(root, text='current_time: '+'00:00')
-	label_download_speed = Label(root, text='download_speed: '+'0'+'MB/s')
+	label_total_byte.config(text='total_byte: '+'0'+'MB')
+	label_current_byte.config(text='current_byte: '+ str(current_byte) +'MB')
+	label_total_time.config(text='total_time: '+'00:00')
+	label_current_time.config(text=f'current_time: '+'00:'+str(current_time))
+	label_download_speed.config(text='download_speed: '+'0'+'MB/s')
 	#print("done", done)
 
 	#pass
@@ -67,23 +73,32 @@ def step():
 	total_size = int(r.headers['content-length'])
 	filename = directory + '\\' + url.split('/')[-1]
 	with open(filename, 'wb') as f:
+		start_time = time.time()
 		dl = 0
 		
 		total_length = r.headers.get('content-length')
 		total_length = int(total_length)
 		for data in tqdm(iterable = r.iter_content(chunk_size = chunk_size), total = total_size/chunk_size, unit = 'MB', bar_format=bar_format):
 			global done
+			global current_time 
+			global current_byte
+
 			root.update_idletasks()
 			#my_progress.start()
 			dl += len(data)
 			done= int(100 * dl / total_length)
 			my_progress['value']=done
 			#label_percent_complete.text=done
-			#print(data)
 			#print("done", done)
 			f.write(data)
+			#print("\n")
+			#print(int(time.time() - start_time))
+			current_time=int(time.time()- start_time)
+			current_byte=dl/chunk_size
+			#tqdm.update()
+			#print(data.format_dict['elapsed'])
 			root.after(1,update_label())
-			
+
 			if stop == True:
 				break
 
