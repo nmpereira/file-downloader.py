@@ -123,8 +123,8 @@ def step():
 			#print(int(time.time() - start_time))
 			current_time=int(time.time()- start_time)
 			current_byte=dl/chunk_size
-			download_speed=round(((dl//(time.time() - start_time) / 100000)*0.125),2)
-			total_time=round(total_size/((download_speed*100000)/0.125),2)
+			download_speed=round(((dl//(time.time() - start_time) / 100000)*0.125)/1.3,2)
+			total_time=round(total_size/((download_speed*100000)/0.125)/1.3,2)
 			time_left=round(total_time-current_time,2)
 			#tqdm.update()
 			root.after(1,update_label())
