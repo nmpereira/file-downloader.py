@@ -2,15 +2,14 @@ from tkinter import *
 from tkinter import ttk
 from tqdm import tqdm
 import requests
-import sys
 import threading
 import time
-import os
+
 
 root = Tk()
 
 root.title('File Downloader')
-root.geometry("560x250")
+root.geometry("580x250")
 root.resizable(False, True)
 root.iconbitmap('images\\file-downloader.ico')
 chunk_size = 1048576
@@ -167,17 +166,17 @@ def stop():
 	stop =True
 
 my_progress =ttk.Progressbar(root, orient=HORIZONTAL, length=500, mode='determinate')
-my_progress.grid(column=1, row=2, columnspan=10,pady=10,padx=10)
+my_progress.grid(column=0, row=2, columnspan=10,pady=10,padx=10)
 
 label_url.grid(column=0, row=0,columnspan=11,sticky=W,pady=1,padx=10)
 label_destination.grid(column=0, row=1,columnspan=11,sticky=W,pady=1,padx=10)
 label_percent_complete.grid(column=11, row=2)
 label_current_byte.grid(column=2, row=3, sticky=E)
 label_total_size.grid(column=3, row=3,sticky=W)
-label_current_time.grid(column=5, row=3,sticky=E,pady=5)
-label_time_left.grid(column=6, row=3,sticky=W)
-label_total_time.grid(column=8, row=3)
-label_download_speed.grid(column=9, row=3)
+label_current_time.grid(column=4, row=3,sticky=E,pady=5)
+label_time_left.grid(column=5, row=3,sticky=W)
+label_total_time.grid(column=7, row=3)
+label_download_speed.grid(column=8, row=3)
 
 
 start_button =Button(root, text='Start',width=8, command=lambda: threading.Thread(target=step).start())
