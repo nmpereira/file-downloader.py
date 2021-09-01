@@ -1,6 +1,7 @@
 from tkinter import *
 from tkinter import ttk
 from tqdm import tqdm
+import sys
 import requests
 import threading
 import time
@@ -9,10 +10,10 @@ root = Tk()
 root.title('File Downloader')
 root.geometry("580x250")
 root.resizable(False, True)
-root.iconbitmap('images\\file-downloader.ico')
 
-url = "http://speedtest.tele2.net/100MB.zip"
-directory = "C:\\gitpersonal\\file-downloader.py\\src"
+
+url = sys.argv[1]
+directory = sys.argv[2]
 
 print(url)
 print("Downloading..")
