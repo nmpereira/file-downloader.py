@@ -11,9 +11,12 @@ root.title('File Downloader')
 root.geometry("580x250")
 root.resizable(False, True)
 
-
+#requires url to file download
 url = sys.argv[1]
+#requires path to save file to
 directory = sys.argv[2]
+#requires True or False
+autostart = sys.argv[3]
 
 print(url)
 print("Downloading..")
@@ -54,7 +57,7 @@ def update_label():
 
 def step():
 	global stop
-	
+	global total_size
 	stop=False
 	chunk_size = 1048576
 	r = requests.get(url, stream = True)
@@ -90,6 +93,8 @@ def step():
 			if stop == True:
 				break
 		print("Download complete!")
+		if autostart=="True":
+			root.after(5000, lambda: root.destroy())
 		
 def stop():
 	global stop
@@ -115,8 +120,10 @@ start_button.grid(column=6,row=4,pady=10)
 stop_button =Button(root, text='Stop',width=8, command=stop)
 stop_button.grid(column=7, row=4,pady=10)
 
-
-
+if autostart=="True":
+	start_button.invoke()
+	
+	
 
 
 root.mainloop()
