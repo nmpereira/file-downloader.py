@@ -10,11 +10,12 @@ import os
 root = Tk()
 
 root.title('File Downloader')
-root.geometry("600x300")
-
+root.geometry("560x250")
+root.resizable(False, True)
+root.iconbitmap('images\\file-downloader.ico')
 chunk_size = 1048576
 
-url = "http://speedtest.tele2.net/1GB.zip"
+url = "http://speedtest.tele2.net/100MB.zip"
 directory = "C:\\gitpersonal\\file-downloader.py\\src"
 
 r = requests.get(url, stream = True)
@@ -62,27 +63,29 @@ print("Downloading..")
 # 		f.write(data)
 
 
-print("Download complete!")
+
 
 #total_size = int(r.headers.get('content-length'))
-label_percent_complete = Label(root, text='Complete: '+'0'+'%')
-label_total_size = Label(root, text='total_size: '+'0'+'MB')
-label_current_byte = Label(root, text='current_byte: '+'0'+'MB')
-label_time_left = Label(root, text='time_left: '+'00:00')
-label_total_time = Label(root, text='time_left: '+'00:00')
-label_current_time = Label(root, text='current_time: '+'00:00')
-label_download_speed = Label(root, text='download_speed: '+'0'+'MB/s')
+label_url=Label(root,wraplength=500,justify=LEFT, text='URL: '+url)
+label_destination=Label(root,wraplength=500,justify=LEFT, text='Dest: '+directory+'\\'+ filename)
+label_percent_complete = Label(root, text='0'+'%')
+label_total_size = Label(root, text=': '+'0'+'MB')
+label_current_byte = Label(root, text='0'+'MB')
+label_current_time = Label(root, text='0'+' Sec')
+label_time_left = Label(root, text=': '+'0'+' Sec')
+label_total_time = Label(root, text='Est. Time: '+'0'+' Sec')
+label_download_speed = Label(root, text='Speed: '+'0'+'MB/s')
 
 def update_label():
 	global label_percent_complete
 	global label_current_time
-	label_percent_complete.config(text='Complete: '+ str(done) + '%')
-	label_total_size.config(text='total_size: '+ str(total_size/chunk_size)+'MB')
-	label_current_byte.config(text='current_byte: '+ str(current_byte) +'MB')
-	label_time_left.config(text='time_left: '+str(int(time_left)))
-	label_total_time.config(text='total_time: '+str(int(total_time)))
-	label_current_time.config(text=f'current_time: '+str(int(current_time)))
-	label_download_speed.config(text='download_speed: '+str(download_speed)+'MB/s')
+	label_percent_complete.config(text=str(done) + '%')
+	label_total_size.config(text=': '+ str(int(total_size/chunk_size))+'MB')
+	label_current_byte.config(text= str(int(current_byte)) +'MB')
+	label_current_time.config(text=str(int(current_time))+' Sec')
+	label_time_left.config(text=': '+str(int(time_left))+' Sec')
+	label_total_time.config(text='Est. Time: '+str(int(total_time))+' Sec')
+	label_download_speed.config(text='Speed: '+str(download_speed)+'MB/s')
 	#print("done", done)
 
 	#pass
@@ -130,6 +133,7 @@ def step():
 			root.after(1,update_label())
 			if stop == True:
 				break
+		print("Download complete!")
 		
 		
 		
@@ -163,23 +167,25 @@ def stop():
 	stop =True
 
 my_progress =ttk.Progressbar(root, orient=HORIZONTAL, length=500, mode='determinate')
-my_progress.pack(pady=20)
+my_progress.grid(column=1, row=2, columnspan=10,pady=10,padx=10)
 
-label_percent_complete.pack()
-label_current_byte.pack()
-label_total_size.pack()
-label_current_time.pack()
-label_time_left.pack()
-label_total_time.pack()
-label_download_speed.pack()
-
-
-start_button =Button(root, text='start', command=lambda: threading.Thread(target=step).start())
-start_button.pack(pady=10)
+label_url.grid(column=0, row=0,columnspan=11,sticky=W,pady=1,padx=10)
+label_destination.grid(column=0, row=1,columnspan=11,sticky=W,pady=1,padx=10)
+label_percent_complete.grid(column=11, row=2)
+label_current_byte.grid(column=2, row=3, sticky=E)
+label_total_size.grid(column=3, row=3,sticky=W)
+label_current_time.grid(column=5, row=3,sticky=E,pady=5)
+label_time_left.grid(column=6, row=3,sticky=W)
+label_total_time.grid(column=8, row=3)
+label_download_speed.grid(column=9, row=3)
 
 
-stop_button =Button(root, text='stop', command=stop)
-stop_button.pack(pady=10)
+start_button =Button(root, text='Start',width=8, command=lambda: threading.Thread(target=step).start())
+start_button.grid(column=6,row=4,pady=10)
+
+
+stop_button =Button(root, text='Stop',width=8, command=stop)
+stop_button.grid(column=7, row=4,pady=10)
 
 
 
