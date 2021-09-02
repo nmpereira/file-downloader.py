@@ -84,13 +84,21 @@ def step():
 			time_left=round(total_time-current_time,2)
 			root.after(1,update_label())
 			if stop == True:
+				start_button.config(text="Restart")
+				start_button.grid()
+				stop_button.grid_remove()
 				return
-		return print("Download complete!"), root.after(5000, lambda: root.destroy()) if autostart=="True" else False
+			else:
+				start_button.grid_remove()
+				stop_button.grid()
+		return print("Download complete!"), root.after(5000, lambda: root.destroy()), Close_button.grid()
 
 		
 def stop():
 	global stop
 	stop =True
+def close_window():
+	root.destroy()
 
 label_url.grid(column=0, row=0,columnspan=11,sticky=W,pady=1,padx=10)
 label_destination.grid(column=0, row=1,columnspan=11,sticky=W,pady=1,padx=10)
@@ -110,12 +118,22 @@ start_button =Button(root, text='Start',width=8, command=lambda: threading.Threa
 start_button.grid(column=6,row=4,pady=10)
 
 stop_button =Button(root, text='Stop',width=8, command=stop)
-stop_button.grid(column=7, row=4,pady=10)
+stop_button.grid(column=6, row=4,pady=10)
+
+Close_button =Button(root, text='Close',width=8, command=close_window)
+Close_button.grid(column=6, row=4,pady=10)
+
+start_button.grid_remove()
+stop_button.grid_remove()
+Close_button.grid_remove()
 
 if autostart=="True":
 	start_button.invoke()
 	
+	start_button.grid_remove()
+	stop_button.grid()
+else:
+	start_button.grid()
+	stop_button.grid_remove()
 	
-
-
 root.mainloop()
