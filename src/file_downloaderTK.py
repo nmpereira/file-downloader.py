@@ -25,12 +25,6 @@ print("Downloading..")
 filename = url.split('/')[-1]
 bar_format='{l_bar}{bar}''|{n_fmt}MB/{total:.2f}MB | [Time:{elapsed}<{remaining} {rate_fmt}{postfix}]'
 
-global done
-global current_time
-global current_byte
-global download_speed
-global total_time
-global time_left
 complete = False
 total_size=0
 chunk_size = 1048576
@@ -46,8 +40,6 @@ label_total_time = Label(root, text='Est. Time: '+'00:00')
 label_download_speed = Label(root, text='Speed: '+'0'+'MB/s')
 
 def update_label():
-	global label_percent_complete
-	global label_current_time
 	label_percent_complete.config(text=str(done) + '%')
 	label_total_size.config(text=': '+ str(int(total_size/chunk_size))+'MB')
 	label_current_byte.config(text= str(int(current_byte)) +'MB')
