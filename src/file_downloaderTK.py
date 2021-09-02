@@ -5,6 +5,7 @@ import sys
 import requests
 import threading
 import time
+import datetime
 
 root = Tk()
 root.title('File Downloader')
@@ -39,9 +40,9 @@ label_destination=Label(root,wraplength=500,justify=LEFT, text='Dest: '+director
 label_percent_complete = Label(root, text='0'+'%')
 label_total_size = Label(root, text=': '+'0'+'MB')
 label_current_byte = Label(root, text='0'+'MB')
-label_current_time = Label(root, text='0'+' Sec')
-label_time_left = Label(root, text=': '+'0'+' Sec')
-label_total_time = Label(root, text='Est. Time: '+'0'+' Sec')
+label_current_time = Label(root, text='00:00')
+label_time_left = Label(root, text=': '+'00:00')
+label_total_time = Label(root, text='Est. Time: '+'00:00')
 label_download_speed = Label(root, text='Speed: '+'0'+'MB/s')
 
 def update_label():
@@ -50,9 +51,9 @@ def update_label():
 	label_percent_complete.config(text=str(done) + '%')
 	label_total_size.config(text=': '+ str(int(total_size/chunk_size))+'MB')
 	label_current_byte.config(text= str(int(current_byte)) +'MB')
-	label_current_time.config(text=str(int(current_time))+' Sec')
-	label_time_left.config(text=': '+str(int(time_left))+' Sec')
-	label_total_time.config(text='Est. Time: '+str(int(total_time))+' Sec')
+	label_current_time.config(text=str(datetime.timedelta(seconds=int(current_time))))
+	label_time_left.config(text=': '+str(datetime.timedelta(seconds=int(time_left))))
+	label_total_time.config(text='Est. Time: '+str(datetime.timedelta(seconds=int(total_time))))
 	label_download_speed.config(text='Speed: '+str(download_speed)+'MB/s')
 
 def step():
@@ -91,10 +92,9 @@ def step():
 			time_left=round(total_time-current_time,2)
 			root.after(1,update_label())
 			if stop == True:
-				break
-		print("Download complete!")
-		if autostart=="True":
-			root.after(5000, lambda: root.destroy())
+				return
+		return print("Download complete!"), root.after(5000, lambda: root.destroy()) if autostart=="True" else False
+
 		
 def stop():
 	global stop
