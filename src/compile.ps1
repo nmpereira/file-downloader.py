@@ -8,6 +8,6 @@ pip install -r requirements.txt
 
 start-sleep 5
 
-pyinstaller --noconfirm --onefile --windowed "C:/gitpersonal/file-downloader.py/src/file_downloaderTK.py"
+pyinstaller --noconfirm --onefile --windowed --name "FileDownloader.exe" "C:/gitpersonal/file-downloader.py/src/file_downloaderTK.py"
 
 pause
