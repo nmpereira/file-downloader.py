@@ -1,8 +1,8 @@
 # file-downloader.py
-A simple file downloader GUI that uses the python modules Tkinter, tqdm and requests.
+A simple file downloader GUI that uses the python modules Tkinter, tqdm and requests. The intended purpose behind creating this tool was to have a GUI based progressbar when scripting/PowerShell automations. It can also be paused, restarted and automatically started, all of which are lacking from powerShell's built in tools.
 
 
-[FileDownloader.exe](https://github.com/nmpereira/file-downloader.py/releases/). contains a progressbar and is called from the CommandLine.
+[FileDownloader.exe](https://github.com/nmpereira/file-downloader.py/releases/) contains a progressbar and is called from the CommandLine.
 
 The program can be called using the following command.
 
