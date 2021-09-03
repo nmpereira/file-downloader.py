@@ -20,33 +20,13 @@ directory = sys.argv[2]
 autostart = sys.argv[3]
 
 print(url)
-print("Downloading..")
 
-filename = url.split('/')[-1]
+filename = directory + '\\' + url.split('/')[-1]
 bar_format='{l_bar}{bar}''|{n_fmt}MB/{total:.2f}MB | [Time:{elapsed}<{remaining} {rate_fmt}{postfix}]'
 
 complete = False
 total_size=0
 chunk_size = 1048576
-
-label_url=Label(root,wraplength=500,justify=LEFT, text='URL: '+url)
-label_destination=Label(root,wraplength=500,justify=LEFT, text='Dest: '+directory+'\\'+ filename)
-label_percent_complete = Label(root, text='0'+'%')
-label_total_size = Label(root, text=': '+'0'+'MB')
-label_current_byte = Label(root, text='0'+'MB')
-label_current_time = Label(root, text='00:00')
-label_time_left = Label(root, text=': '+'00:00')
-label_total_time = Label(root, text='Est. Time: '+'00:00')
-label_download_speed = Label(root, text='Speed: '+'0'+'MB/s')
-
-def update_label():
-	label_percent_complete.config(text=str(done) + '%')
-	label_total_size.config(text=': '+ str(int(total_size/chunk_size))+'MB')
-	label_current_byte.config(text= str(int(current_byte)) +'MB')
-	label_current_time.config(text=str(datetime.timedelta(seconds=int(current_time))))
-	label_time_left.config(text=': '+str(datetime.timedelta(seconds=int(time_left))))
-	label_total_time.config(text='Est. Time: '+str(datetime.timedelta(seconds=int(total_time))))
-	label_download_speed.config(text='Speed: '+str(download_speed)+'MB/s')
 
 def step():
 	global stop
@@ -91,7 +71,7 @@ def step():
 			else:
 				start_button.grid_remove()
 				stop_button.grid()
-		return print("Download complete!"), root.after(5000, lambda: root.destroy()), Close_button.grid()
+		return print("Download complete!"), root.after(5000, lambda: root.destroy()), close_button.grid()
 
 		
 def stop():
@@ -99,6 +79,26 @@ def stop():
 	stop =True
 def close_window():
 	root.destroy()
+
+	
+label_url=Label(root,wraplength=500,justify=LEFT, text='URL: '+url)
+label_destination=Label(root,wraplength=500,justify=LEFT, text='Dest: '+filename)
+label_percent_complete = Label(root, text='0'+'%')
+label_total_size = Label(root, text=': '+'0'+'MB')
+label_current_byte = Label(root, text='0'+'MB')
+label_current_time = Label(root, text='00:00')
+label_time_left = Label(root, text=': '+'00:00')
+label_total_time = Label(root, text='Est. Time: '+'00:00')
+label_download_speed = Label(root, text='Speed: '+'0'+'MB/s')
+
+def update_label():
+	label_percent_complete.config(text=str(done) + '%')
+	label_total_size.config(text=': '+ str(int(total_size/chunk_size))+'MB')
+	label_current_byte.config(text= str(int(current_byte)) +'MB')
+	label_current_time.config(text=str(datetime.timedelta(seconds=int(current_time))))
+	label_time_left.config(text=': '+str(datetime.timedelta(seconds=int(time_left))))
+	label_total_time.config(text='Est. Time: '+str(datetime.timedelta(seconds=int(total_time))))
+	label_download_speed.config(text='Speed: '+str(download_speed)+'MB/s')
 
 label_url.grid(column=0, row=0,columnspan=11,sticky=W,pady=1,padx=10)
 label_destination.grid(column=0, row=1,columnspan=11,sticky=W,pady=1,padx=10)
@@ -120,12 +120,12 @@ start_button.grid(column=6,row=4,pady=10)
 stop_button =Button(root, text='Stop',width=8, command=stop)
 stop_button.grid(column=6, row=4,pady=10)
 
-Close_button =Button(root, text='Close',width=8, command=close_window)
-Close_button.grid(column=6, row=4,pady=10)
+close_button =Button(root, text='Close',width=8, command=close_window)
+close_button.grid(column=6, row=4,pady=10)
 
 start_button.grid_remove()
 stop_button.grid_remove()
-Close_button.grid_remove()
+close_button.grid_remove()
 
 if autostart=="True":
 	start_button.invoke()
