@@ -12,4 +12,9 @@ Example:
 
 `.\FileDownloader.exe "http://speedtest.tele2.net/100MB.zip" "C:\\temp" "True"`
 
+![File Downloader without command](https://github.com/nmpereira/file-downloader.py/blob/master/src/images/FileDownloader.PNG?raw=true)
+
+![File Downloader with command](https://github.com/nmpereira/file-downloader.py/blob/master/src/images/FileDownloaderFull.PNG?raw=true)
+
+
 
