@@ -1,3 +1,5 @@
+python -m venv build_env
+
 .\build_env\Scripts\activate.ps1
 
 start-sleep 5
