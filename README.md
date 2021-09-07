@@ -12,7 +12,7 @@ Examples:
 
 `.\FileDownloader.exe "http://speedtest.tele2.net/100MB.zip" "C:\\temp" "True"`
 
-`.\FileDownloader.exe "http://speedtest.tele2.net/1GB.zip" "C:\\temp" "False"`
+`.\FileDownloader.exe "http://speedtest.tele2.net/1GB.zip" ".\" "False"`
 
 ![File Downloader without command](https://github.com/nmpereira/file-downloader.py/blob/master/src/images/FileDownloader.PNG?raw=true)
 
